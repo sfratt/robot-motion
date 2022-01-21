@@ -3,12 +3,151 @@
  */
 package ca.concordia.encs.robot_motion;
 
+import java.util.Scanner;
+import java.util.Vector;
+import java.io.IOException;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+   
+    protected Boolean[][] gameBoard;
+    protected int boardSize;
+    protected Boolean penPosition;
+    protected int robotPositionX;
+    protected int robotPositionY;
+    protected String robotDirection;
+    protected Vector<String> positionHistory;
+
+    public static void main(String[] args) throws IOException{
+
+        while(true){
+
+            String firstInput;
+            String secondInput;
+            String instruction ="nothing";
+            int instructionNumber = 0;
+
+            System.out.print("Enter command: ");
+            Scanner scan = new Scanner(System.in);
+            firstInput = scan.next(); //reads input
+
+            if(validInstruction(firstInput.toUpperCase())){ //validates input
+                instruction = firstInput.toUpperCase(); //input to uppercase and save
+                if(instruction.equals("I") || instruction.equals("M")){
+                    secondInput = scan.next(); //read number
+                    if(isInt(secondInput)){ //validates number
+                        instructionNumber = Integer.parseInt(secondInput);
+                    }
+                    else{
+                        System.out.println("Please enter valid integer.");
+                    }
+                }
+            }
+            else{
+                System.out.println("Please enter valid instruction.");
+            }
+            
+            System.out.println(instruction);
+            System.out.println(instructionNumber);
+            
+            if(instruction.equals("Q") || instruction.equals("q")){
+                scan.close();
+                break;
+            }
+        }
+
+    } 
+
+    public void initGame(int size){
+        
+        gameBoard = new Boolean[size][size];
+        
+        for (int row = 0; row < gameBoard.length; row++){
+            for (int col = 0; col < gameBoard[row].length; col++){
+                gameBoard[row][col] = false;
+            }
+        }
+
+        penPosition = false;
+        robotPositionX = 0;
+        robotPositionY = 0;
+        robotDirection = "north";
+        positionHistory = new Vector<>();
+
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    public void printPosition(){
+
+        String penPos;
+
+        if (penPosition){
+            penPos = "down";
+        }
+        else{ 
+            penPos = "up";
+        }
+
+        System.out.println("Position: " + robotPositionX + ", " + robotPositionY +
+                            " - Pen: " + penPos + 
+                            " - Facing: " + robotDirection);
+    }
+
+    public void printBoard(){
+
+    }
+    
+    public void setPenPosition(Boolean position){
+
+        penPosition = position;
+
+    }
+
+    public void setDirection(String direction){
+        //have to check to make sure its north, south, east, or west only
+        robotDirection = direction;
+
+    }
+
+    public void setPositionX(int number){
+        //have to check to make sure its not out of bounds
+        robotPositionX += number;
+
+    }
+
+    public void setPositionY(int number){
+        //have to check to make sure its not out of bounds
+        robotPositionY += number;
+
+    }
+
+    public void printHistory(){
+        //print history of positions
+    }
+
+    private static boolean validInstruction(String str) {
+        if( str.equals("U")
+            || str.equals("D")
+            || str.equals("R")
+            || str.equals("L")
+            || str.equals("M")
+            || str.equals("P")
+            || str.equals("C")
+            || str.equals("Q")
+            || str.equals("I")){
+                return true;
+            }
+        else{
+            return false;
+        }
+    }
+
+    public static boolean isInt(String str) {
+        try {
+            @SuppressWarnings("unused")
+            int x = Integer.parseInt(str);
+            return true; //String is an Integer
+        } 
+        catch (NumberFormatException e) {
+            return false; //String is not an Integer
+        }
     }
 }
