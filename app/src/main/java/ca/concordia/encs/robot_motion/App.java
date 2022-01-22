@@ -3,19 +3,20 @@
  */
 package ca.concordia.encs.robot_motion;
 
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Vector;
 import java.io.IOException;
 
 public class App {
    
-    protected Boolean[][] gameBoard;
-    protected int boardSize;
-    protected Boolean penPosition;
-    protected int robotPositionX;
-    protected int robotPositionY;
-    protected String robotDirection;
-    protected Vector<String> positionHistory;
+    protected static Boolean[][] gameBoard;
+    protected static int boardSize;
+    protected static Boolean penPosition;
+    protected static int robotPositionX;
+    protected static int robotPositionY;
+    protected static String robotDirection;
+    protected static Vector<String> positionHistory;
 
     public static void main(String[] args) throws IOException{
 
@@ -35,7 +36,17 @@ public class App {
                 if(instruction.equals("I") || instruction.equals("M")){
                     secondInput = scan.next(); //read number
                     if(isInt(secondInput)){ //validates number
-                        instructionNumber = Integer.parseInt(secondInput);
+                        if(instruction.equals("I")){
+                            if(Integer.parseInt(secondInput) > 0){
+                                instructionNumber = Integer.parseInt(secondInput);
+                            }
+                            else{
+                                System.out.println("Please enter positive integer.");
+                            }
+                        }
+                        else{
+                            instructionNumber = Integer.parseInt(secondInput);
+                        }
                     }
                     else{
                         System.out.println("Please enter valid integer.");
@@ -45,11 +56,51 @@ public class App {
             else{
                 System.out.println("Please enter valid instruction.");
             }
+
+            switch(instruction){
+                case "U":
+                    setPenPosition(false);
+                    break;
+                case "D":
+                    setPenPosition(true);
+                    break;
+                case "R":
+                    setRobotTurn("Right");
+                    break;
+                case "L":
+                    setRobotTurn("Left");
+                    break;
+                case "M":
+                    if(robotDirection.equals("North")){
+                        setPositionY(instructionNumber);
+                    }
+                    else if(robotDirection.equals("South")){
+                        setPositionY(-instructionNumber);
+                    }
+                    else if(robotDirection.equals("East")){
+                        setPositionX(instructionNumber);
+                    }
+                    else{
+                        setPositionX(-instructionNumber);
+                    }
+                    break;
+                case "P":
+                    printBoard();
+                    break;
+                case "C":
+                    printCurrentPosition();
+                    break;
+                case "Q":
+                    break;
+                case "I":
+                    initGame(instructionNumber);
+                    break;
+            }
             
-            System.out.println(instruction);
-            System.out.println(instructionNumber);
+            //System.out.println(instruction);
+            //System.out.println(instructionNumber);
             
-            if(instruction.equals("Q") || instruction.equals("q")){
+            if(instruction.equals("Q")){
                 scan.close();
                 break;
             }
@@ -57,25 +108,26 @@ public class App {
 
     } 
 
-    public void initGame(int size){
+    public static void initGame(int size){
         
         gameBoard = new Boolean[size][size];
         
-        for (int row = 0; row < gameBoard.length; row++){
-            for (int col = 0; col < gameBoard[row].length; col++){
+        for (int row = 0; row < size; row++){
+            for (int col = 0; col < size; col++){
                 gameBoard[row][col] = false;
             }
         }
 
+        boardSize = size;
         penPosition = false;
         robotPositionX = 0;
         robotPositionY = 0;
-        robotDirection = "north";
+        robotDirection = "North";
         positionHistory = new Vector<>();
 
     }
 
-    public void printPosition(){
+    public static void printCurrentPosition(){
 
         String penPos;
 
@@ -89,38 +141,129 @@ public class App {
         System.out.println("Position: " + robotPositionX + ", " + robotPositionY +
                             " - Pen: " + penPos + 
                             " - Facing: " + robotDirection);
+
     }
 
-    public void printBoard(){
+    public static void printBoard(){
 
+        //System.out.println(Arrays.deepToString(gameBoard));
+        
+        for (int row = boardSize - 1; row >= 0; row--){
+            System.out.print(row);
+            for (int col = 0; col < boardSize; col++){
+                if(gameBoard[row][col]){
+                    System.out.print(" *");
+                }
+                else{
+                    System.out.print("  ");
+                }
+            }
+            System.out.print("\n");
+        }
+        System.out.print(" ");
+        for (int i = 0; i <  boardSize; i++){
+            System.out.print(" " + i);
+        }
+        System.out.print("\n");
+        
     }
     
-    public void setPenPosition(Boolean position){
-
-        penPosition = position;
-
-    }
-
-    public void setDirection(String direction){
-        //have to check to make sure its north, south, east, or west only
-        robotDirection = direction;
+    public static void setPenPosition(Boolean position){
+        
+        penPosition = position;//false = pen up, true = pen down
 
     }
 
-    public void setPositionX(int number){
+    public static void setRobotTurn(String turn){
+        
+        switch(turn){
+            case "Right":
+                if(robotDirection.equals("North")){
+                    robotDirection = "East";
+                }
+                else if(robotDirection.equals("East")){
+                    robotDirection = "South";
+                }
+                else if(robotDirection.equals("South")){
+                    robotDirection = "West";
+                }
+                else if(robotDirection.equals("West")){
+                    robotDirection = "North";
+                }
+                else{
+                    System.out.println("Error at setRobotTurnRight!");
+                }
+                break;
+            case "Left":
+                if(robotDirection.equals("North")){
+                    robotDirection = "West";
+                }
+                else if(robotDirection.equals("East")){
+                    robotDirection = "North";
+                }
+                else if(robotDirection.equals("South")){
+                    robotDirection = "East";
+                }
+                else if(robotDirection.equals("West")){
+                    robotDirection = "South";
+                }
+                else{
+                    System.out.println("Error at setRobotTurnLeft!");
+                }
+                break;
+        }
+
+    }
+
+    public static void setPositionX(int number){
         //have to check to make sure its not out of bounds
-        robotPositionX += number;
+        if(robotPositionX + number >= 0 && robotPositionX + number <= boardSize - 1){
+            if(penPosition){
+                if(number > 0){
+                    for(int i = robotPositionX; i < robotPositionX + number + 1; i++){
+                        gameBoard[robotPositionY][i] = true;
+                    }
+                }
+                else{
+                    for(int i = robotPositionX + number; i < robotPositionX + 1; i++){
+                        gameBoard[robotPositionY][i] = true;
+                    }
+                }
+            }
+            robotPositionX += number;
+        }
+        else{
+            System.out.println("Error at setPositionX, out of bound!");
+        }
 
     }
 
-    public void setPositionY(int number){
+    public static void setPositionY(int number){
         //have to check to make sure its not out of bounds
-        robotPositionY += number;
+        if(robotPositionY + number >= 0 && robotPositionY + number <= boardSize - 1){
+            if(penPosition){
+                if(number > 0){
+                    for(int i = robotPositionY; i < robotPositionY + number + 1; i++){
+                        gameBoard[i][robotPositionX] = true;
+                    }
+                }
+                else{
+                    for(int i = robotPositionY + number; i < robotPositionY + 1; i++){
+                        gameBoard[i][robotPositionX] = true;
+                    }
+                }
+            }
+            robotPositionY += number;
+        }
+        else{
+            System.out.println("Error at setPositionY, out of bound!");
+        }
 
     }
 
-    public void printHistory(){
+    public static void printHistory(){
         //print history of positions
+
     }
 
     private static boolean validInstruction(String str) {
