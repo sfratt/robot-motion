@@ -84,24 +84,24 @@ public class Floor {
             var previousPosition = getHorizonatalAxisPosition();
             setHorizontalAxisPosition(positionChange);
             if (positionChange > 0) {
-                for (int i = previousPosition; i <= horizontalAxisPosition; i++) {
-                    floorGrid[i][verticalAxisPosition] = true;
+                for (int x = previousPosition; x <= horizontalAxisPosition; x++) {
+                    floorGrid[x][verticalAxisPosition] = true;
                 }
             } else {
-                for (int i = previousPosition; i >= horizontalAxisPosition; i--) {
-                    floorGrid[i][verticalAxisPosition] = true;
+                for (int x = previousPosition; x >= horizontalAxisPosition; x--) {
+                    floorGrid[x][verticalAxisPosition] = true;
                 }
             }
         } else if (axis == 'Y') {
             var previousPosition = getVerticalAxisPosition();
             setVerticalAxisPosition(positionChange);
             if (positionChange > 0) {
-                for (int j = previousPosition; j <= verticalAxisPosition; j++) {
-                    floorGrid[horizontalAxisPosition][j] = true;
+                for (int y = previousPosition; y <= verticalAxisPosition; y++) {
+                    floorGrid[horizontalAxisPosition][y] = true;
                 }
             } else {
-                for (int j = previousPosition; j >= verticalAxisPosition; j--) {
-                    floorGrid[horizontalAxisPosition][j] = true;
+                for (int y = previousPosition; y >= verticalAxisPosition; y--) {
+                    floorGrid[horizontalAxisPosition][y] = true;
                 }
             }
         } else {

@@ -160,7 +160,7 @@ public class FloorTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("Axis parameter contains an argument that is not the X or Y axis")
     public void setFloorGrid_InvalidAxisInput_ThrowsIllegalArgumentException() {
         var exception = assertThrows(IllegalArgumentException.class, () -> floor.setFloorGrid(2, 'Z'));
         assertEquals("Invalid axis value provided", exception.getMessage());
