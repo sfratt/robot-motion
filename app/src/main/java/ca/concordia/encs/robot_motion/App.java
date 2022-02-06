@@ -10,13 +10,13 @@ import java.io.IOException;
 
 public class App {
 
-    protected static Boolean[][] gameBoard;
-    protected static int boardSize;
-    protected static Boolean penPosition;
-    protected static int robotPositionX;
-    protected static int robotPositionY;
-    protected static String robotDirection;
-    protected static Vector<String> positionHistory;
+    public static Boolean[][] gameBoard;
+    public static int boardSize;
+    public static Boolean penPosition;
+    public static int robotPositionX;
+    public static int robotPositionY;
+    public static String robotDirection;
+    public static Vector<String> positionHistory;
 
     public static void main(String[] args) throws IOException {
         // TODO: Create robot motion class to orchestrate program (static class?)
@@ -163,9 +163,7 @@ public class App {
     }
 
     public static void setPenPosition(Boolean position) {
-
         penPosition = position;// false = pen up, true = pen down
-
     }
 
     public static void setRobotTurn(String turn) {
@@ -248,7 +246,7 @@ public class App {
 
     }
 
-    private static boolean validInstruction(String str) {
+    public static boolean validInstruction(String str) {
         if (str.equals("U")
                 || str.equals("D")
                 || str.equals("R")
