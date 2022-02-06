@@ -79,33 +79,37 @@ public class Floor {
      * @param axis           direction on the grid the position change is affecting
      * @throws IllegalArgumentException axis parameter is outside permitted values
      */
-    public void setFloorGrid(int positionChange, char axis) throws IllegalArgumentException {
-        if (axis == 'X') {
-            var previousPosition = getHorizonatalAxisPosition();
-            setHorizontalAxisPosition(positionChange);
-            if (positionChange > 0) {
-                for (int x = previousPosition; x <= horizontalAxisPosition; x++) {
-                    floorGrid[x][verticalAxisPosition] = true;
+    public void setFloorGrid(char axis, int positionChange) throws IllegalArgumentException {
+        int previousPosition;
+        switch (axis) {
+            case 'X':
+                previousPosition = getHorizonatalAxisPosition();
+                setHorizontalAxisPosition(positionChange);
+                if (positionChange >= 0) {
+                    for (int x = previousPosition; x <= horizontalAxisPosition; x++) {
+                        floorGrid[x][verticalAxisPosition] = true;
+                    }
+                } else {
+                    for (int x = previousPosition; x >= horizontalAxisPosition; x--) {
+                        floorGrid[x][verticalAxisPosition] = true;
+                    }
                 }
-            } else {
-                for (int x = previousPosition; x >= horizontalAxisPosition; x--) {
-                    floorGrid[x][verticalAxisPosition] = true;
+                break;
+            case 'Y':
+                previousPosition = getVerticalAxisPosition();
+                setVerticalAxisPosition(positionChange);
+                if (positionChange >= 0) {
+                    for (int y = previousPosition; y <= verticalAxisPosition; y++) {
+                        floorGrid[horizontalAxisPosition][y] = true;
+                    }
+                } else {
+                    for (int y = previousPosition; y >= verticalAxisPosition; y--) {
+                        floorGrid[horizontalAxisPosition][y] = true;
+                    }
                 }
-            }
-        } else if (axis == 'Y') {
-            var previousPosition = getVerticalAxisPosition();
-            setVerticalAxisPosition(positionChange);
-            if (positionChange > 0) {
-                for (int y = previousPosition; y <= verticalAxisPosition; y++) {
-                    floorGrid[horizontalAxisPosition][y] = true;
-                }
-            } else {
-                for (int y = previousPosition; y >= verticalAxisPosition; y--) {
-                    floorGrid[horizontalAxisPosition][y] = true;
-                }
-            }
-        } else {
-            throw new IllegalArgumentException("Invalid axis value provided");
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid axis value provided");
         }
     }
 }

@@ -71,8 +71,8 @@ public class FloorTest {
     @DisplayName("Set vertical axis position to a valid position within floor")
     public void setVerticalAxisPosition_ValidInput_PositionModifiedSuccessfully() {
         floor.setVerticalAxisPosition(5);
-        floor.setVerticalAxisPosition(2);
-        assertEquals(7, floor.getVerticalAxisPosition());
+        floor.setVerticalAxisPosition(-2);
+        assertEquals(3, floor.getVerticalAxisPosition());
     }
 
     @Test
@@ -100,7 +100,7 @@ public class FloorTest {
         floorGrid[6][0] = true;
         floorGrid[7][0] = true;
 
-        floor.setFloorGrid(7, 'X');
+        floor.setFloorGrid('X', 7);
 
         assertArrayEquals(floorGrid, floor.getFloorGrid());
     }
@@ -116,7 +116,7 @@ public class FloorTest {
         floorGrid[0][4] = true;
         floorGrid[0][5] = true;
 
-        floor.setFloorGrid(5, 'Y');
+        floor.setFloorGrid('Y', 5);
 
         assertArrayEquals(floorGrid, floor.getFloorGrid());
     }
@@ -133,9 +133,9 @@ public class FloorTest {
         floorGrid[1][2] = true;
         floorGrid[0][2] = true;
 
-        floor.setFloorGrid(2, 'X');
-        floor.setFloorGrid(2, 'Y');
-        floor.setFloorGrid(-2, 'X');
+        floor.setFloorGrid('X', 2);
+        floor.setFloorGrid('Y', 2);
+        floor.setFloorGrid('X', -2);
 
         assertArrayEquals(floorGrid, floor.getFloorGrid());
     }
@@ -152,9 +152,9 @@ public class FloorTest {
         floorGrid[1][2] = true;
         floorGrid[1][1] = true;
 
-        floor.setFloorGrid(3, 'Y');
-        floor.setFloorGrid(1, 'X');
-        floor.setFloorGrid(-2, 'Y');
+        floor.setFloorGrid('Y', 3);
+        floor.setFloorGrid('X', 1);
+        floor.setFloorGrid('Y', -2);
 
         assertArrayEquals(floorGrid, floor.getFloorGrid());
     }
@@ -162,7 +162,7 @@ public class FloorTest {
     @Test
     @DisplayName("Axis parameter contains an argument that is not the X or Y axis")
     public void setFloorGrid_InvalidAxisInput_ThrowsIllegalArgumentException() {
-        var exception = assertThrows(IllegalArgumentException.class, () -> floor.setFloorGrid(2, 'Z'));
+        var exception = assertThrows(IllegalArgumentException.class, () -> floor.setFloorGrid('Z', 2));
         assertEquals("Invalid axis value provided", exception.getMessage());
     }
 }
