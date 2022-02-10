@@ -15,7 +15,7 @@ public class FloorTest {
     private final int floorLength = 10;
 
     @BeforeEach
-    public final void before() {
+    public final void beforeEach() {
         floor = new Floor(floorLength);
     }
 
@@ -28,14 +28,18 @@ public class FloorTest {
     @Test
     @DisplayName("New horizontal axis position is greater than maximum horizontal position")
     public void setHorizontalAxisPosition_GreaterThanMaxPosition_ThrowsIllegalArgumentException() {
-        var exception = assertThrows(IllegalArgumentException.class, () -> floor.setHorizontalAxisPosition(11));
+        var exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> floor.setHorizontalAxisPosition(11));
         assertEquals("New horizontal position is outside floor grid", exception.getMessage());
     }
 
     @Test
     @DisplayName("New horizontal axis position is less than minimum horizontal position")
     public void setHorizontalAxisPosition_LessThanMinPosition_ThrowsIllegalArgumentException() {
-        var exception = assertThrows(IllegalArgumentException.class, () -> floor.setHorizontalAxisPosition(-1));
+        var exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> floor.setHorizontalAxisPosition(-1));
         assertEquals("New horizontal position is outside floor grid", exception.getMessage());
     }
 
@@ -56,14 +60,18 @@ public class FloorTest {
     @Test
     @DisplayName("New vertical axis position is greater than maximum vertical position")
     public void setVerticalAxisPosition_GreaterThanMaxPosition_ThrowsIllegalArgumentException() {
-        var exception = assertThrows(IllegalArgumentException.class, () -> floor.setVerticalAxisPosition(11));
+        var exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> floor.setVerticalAxisPosition(11));
         assertEquals("New vertical position is outside floor grid", exception.getMessage());
     }
 
     @Test
     @DisplayName("New vertical axis position is less than maximum vertical position")
     public void setVerticalAxisPosition_LessThanMinPosition_ThrowsIllegalArgumentException() {
-        var exception = assertThrows(IllegalArgumentException.class, () -> floor.setVerticalAxisPosition(-1));
+        var exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> floor.setVerticalAxisPosition(-1));
         assertEquals("New vertical position is outside floor grid", exception.getMessage());
     }
 
