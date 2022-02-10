@@ -75,8 +75,8 @@ public class Floor {
      * Updates the grid values based on the difference in position change and axis
      * to apply the change to.
      * 
-     * @param positionChange integer value for number of positions to move
      * @param axis           direction on the grid the position change is affecting
+     * @param positionChange integer value for number of positions to move
      * @throws IllegalArgumentException axis parameter is outside permitted values
      */
     public void setFloorGrid(char axis, int positionChange) throws IllegalArgumentException {
