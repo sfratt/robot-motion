@@ -13,12 +13,6 @@ public class DirectionTest {
     }
 
     @Test
-    public void getFromShortName_ShortNameW_ReturnsDirectionWest() {
-        Direction direction = Direction.getFromShortName('W');
-        assertEquals(Direction.WEST, direction);
-    }
-
-    @Test
     public void getFromShortName_ShortNameD_ThrowsIllegalArgumentException() {
         var exception = assertThrows(
                 IllegalArgumentException.class,
