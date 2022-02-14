@@ -15,7 +15,7 @@ public enum Direction {
         this.shortName = shortName;
     }
 
-    public static Direction getFromShortName(final char shortName) {
+    public static Direction getFromShortName(final char shortName) throws IllegalArgumentException {
         for (Direction direction : Direction.values()) {
             if (direction.shortName == shortName) {
                 return direction;
