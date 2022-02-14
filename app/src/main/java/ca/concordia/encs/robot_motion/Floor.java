@@ -3,16 +3,16 @@ package ca.concordia.encs.robot_motion;
 public class Floor {
     private final int floorLength;
     private boolean[][] floorGrid;
-    private int horizontalAxisPosition = 0;
-    private int verticalAxisPosition = 0;
+    private Point point;
 
     /**
      * Initializes the floor grid to dimensions specified by floor length parameter.
      * 
      * @param floorLength integer length N of the two-dimensional (N x N) floor grid
      */
-    public Floor(int floorLength) {
+    public Floor(int floorLength, Point point) {
         this.floorLength = floorLength;
+        this.point = point;
         floorGrid = new boolean[floorLength][floorLength];
     }
 
@@ -22,7 +22,7 @@ public class Floor {
      * @return current cell occupied on x-axis of floor grid
      */
     public int getHorizonatalAxisPosition() {
-        return horizontalAxisPosition;
+        return point.getX();
     }
 
     /**
@@ -32,11 +32,11 @@ public class Floor {
      * @throws IllegalArgumentException position being set outside x-axis
      */
     public void setHorizontalAxisPosition(int positionChange) {
-        int newPosition = horizontalAxisPosition + positionChange;
+        int newPosition = point.getX() + positionChange;
         if (newPosition < 0 || newPosition >= floorLength) {
             throw new IllegalArgumentException("New horizontal position is outside floor grid");
         }
-        horizontalAxisPosition = newPosition;
+        point.setX(newPosition);
     }
 
     /**
@@ -45,7 +45,7 @@ public class Floor {
      * @return current cell occupied on y-axis of floor grid
      */
     public int getVerticalAxisPosition() {
-        return verticalAxisPosition;
+        return point.getY();
     }
 
     /**
@@ -55,11 +55,11 @@ public class Floor {
      * @throws IllegalArgumentException position being set outside y-axis
      */
     public void setVerticalAxisPosition(int positionChange) {
-        int newPosition = verticalAxisPosition + positionChange;
+        int newPosition = point.getY() + positionChange;
         if (newPosition < 0 || newPosition >= floorLength) {
             throw new IllegalArgumentException("New vertical position is outside floor grid");
         }
-        verticalAxisPosition = newPosition;
+        point.setY(newPosition);
     }
 
     /**
@@ -86,12 +86,12 @@ public class Floor {
                 previousPosition = getHorizonatalAxisPosition();
                 setHorizontalAxisPosition(positionChange);
                 if (positionChange >= 0) {
-                    for (int x = previousPosition; x <= horizontalAxisPosition; x++) {
-                        floorGrid[x][verticalAxisPosition] = true;
+                    for (int x = previousPosition; x <= point.getX(); x++) {
+                        floorGrid[x][point.getY()] = true;
                     }
                 } else {
-                    for (int x = previousPosition; x >= horizontalAxisPosition; x--) {
-                        floorGrid[x][verticalAxisPosition] = true;
+                    for (int x = previousPosition; x >= point.getX(); x--) {
+                        floorGrid[x][point.getY()] = true;
                     }
                 }
                 break;
@@ -99,12 +99,12 @@ public class Floor {
                 previousPosition = getVerticalAxisPosition();
                 setVerticalAxisPosition(positionChange);
                 if (positionChange >= 0) {
-                    for (int y = previousPosition; y <= verticalAxisPosition; y++) {
-                        floorGrid[horizontalAxisPosition][y] = true;
+                    for (int y = previousPosition; y <= point.getY(); y++) {
+                        floorGrid[point.getX()][y] = true;
                     }
                 } else {
-                    for (int y = previousPosition; y >= verticalAxisPosition; y--) {
-                        floorGrid[horizontalAxisPosition][y] = true;
+                    for (int y = previousPosition; y >= point.getY(); y--) {
+                        floorGrid[point.getX()][y] = true;
                     }
                 }
                 break;
