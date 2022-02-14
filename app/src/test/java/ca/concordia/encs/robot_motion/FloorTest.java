@@ -11,12 +11,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class FloorTest {
-    private Floor floor;
     private final int floorLength = 10;
+    private Floor floor;
+    private Point point;
 
     @BeforeEach
     public final void beforeEach() {
-        floor = new Floor(floorLength);
+        point = new Point(0, 0);
+        floor = new Floor(floorLength, point);
     }
 
     @Test
