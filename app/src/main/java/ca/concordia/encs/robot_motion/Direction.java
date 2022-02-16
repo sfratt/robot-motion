@@ -22,8 +22,6 @@ public enum Direction {
             }
         }
         return Direction.NONE;
-        // throw new IllegalArgumentException(shortName + " is not a valid direction
-        // short name");
     }
 
     public Direction turnLeft() {

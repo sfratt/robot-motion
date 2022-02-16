@@ -1,17 +1,22 @@
 package ca.concordia.encs.robot_motion;
 
 public class Pen {
-    private boolean penPositionDown;
+    private boolean penPosition;
 
-    public Pen(boolean penPositionDown) {
-        this.penPositionDown = penPositionDown;
+    public Pen(boolean penPosition) {
+        this.penPosition = penPosition;
     }
 
-    public boolean isPenPositionDown() {
-        return penPositionDown;
+    public boolean getPenPosition() {
+        return penPosition;
     }
 
-    public void setPenPositionDown(boolean penPositionDown) {
-        this.penPositionDown = penPositionDown;
+    /**
+     * Sets pen in the up or down position.
+     * 
+     * @param penPosition pen position down when true, up when false
+     */
+    public void setPenPosition(boolean penPosition) {
+        this.penPosition = penPosition;
     }
 }

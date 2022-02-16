@@ -2,6 +2,7 @@ package ca.concordia.encs.robot_motion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -90,19 +91,19 @@ public class LocationTest {
     }
 
     @Test
-    public void move_YLessThanMinPoint_ReturnsFalseAndMoveNotChanged() {
-        location.setDirection(Direction.SOUTH);
-        var isPointChanged = location.move(50, max);
-        assertFalse(isPointChanged);
-        assertEquals(y, location.getY());
-    }
-
-    @Test
     public void move_XGreaterThanMaxPoint_ReturnsFalseAndMoveNotChanged() {
         location.setDirection(Direction.EAST);
         var isPointChanged = location.move(50, max);
         assertFalse(isPointChanged);
         assertEquals(x, location.getX());
+    }
+
+    @Test
+    public void move_YLessThanMinPoint_ReturnsFalseAndMoveNotChanged() {
+        location.setDirection(Direction.SOUTH);
+        var isPointChanged = location.move(50, max);
+        assertFalse(isPointChanged);
+        assertEquals(y, location.getY());
     }
 
     @Test
@@ -112,4 +113,16 @@ public class LocationTest {
         assertFalse(isPointChanged);
         assertEquals(x, location.getX());
     }
+
+    @Test
+    public void copy_CopyObject_ObjectsAreDifferent() {
+        var copy = location.copy();
+        assertNotSame(copy, location);
+    }
+
+    // @Test
+    // public void copy_CopyObject_ObjectsAreEquivalent() {
+    // var copy = location.copy();
+    // assertEquals(location, copy);
+    // }
 }

@@ -12,12 +12,17 @@ import org.junit.jupiter.api.Test;
 
 public class FloorTest {
     private final Point max = new Point(10, 10);
+    private final int x = 0;
+    private final int y = 0;
+    private Direction direction = Direction.NORTH;
     private Point point;
+    private Location location;
     private Floor floor;
 
     @BeforeEach
     public final void beforeEach() {
-        point = new Point(0, 0);
+        point = new Point(x, y);
+        location = new Location(new Point(x, y), direction);
         floor = new Floor(max, point);
     }
 
@@ -174,5 +179,19 @@ public class FloorTest {
     public void setFloorGrid_InvalidAxisInput_ThrowsIllegalArgumentException() {
         var exception = assertThrows(IllegalArgumentException.class, () -> floor.setFloorGrid('Z', 2));
         assertEquals("Invalid axis value provided", exception.getMessage());
+    }
+
+    @Test
+    public void testNewGridMethod() {
+        var floorGrid = new boolean[max.getX()][max.getY()];
+        floorGrid[0][0] = true;
+        floorGrid[0][1] = true;
+        floorGrid[0][2] = true;
+
+        var previousLocation = location.copy();
+        location.move(2, max);
+        floor.setFloorGrid(previousLocation, 2);
+
+        assertArrayEquals(floorGrid, floor.getFloorGrid());
     }
 }

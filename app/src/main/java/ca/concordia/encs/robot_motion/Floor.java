@@ -112,4 +112,27 @@ public class Floor {
                 throw new IllegalArgumentException("Invalid axis value provided");
         }
     }
+
+    public void setFloorGrid(Location location, int moveSize) {
+        int previousPosition;
+        int newPosition;
+
+        switch (location.getDirection()) {
+            case NORTH:
+                previousPosition = location.getY();
+                newPosition = previousPosition + moveSize;
+                for (int y = previousPosition; y <= newPosition; y++) {
+                    floorGrid[location.getX()][y] = true;
+                }
+                break;
+            case EAST:
+                previousPosition = location.getX();
+                newPosition = previousPosition + moveSize;
+                for (int x = previousPosition; x <= newPosition; x++) {
+                    floorGrid[x][location.getY()] = true;
+                }
+            default:
+                break;
+        }
+    }
 }
