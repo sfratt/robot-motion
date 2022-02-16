@@ -1,7 +1,7 @@
 package ca.concordia.encs.robot_motion;
 
 public class Floor {
-    private final int floorLength;
+    private final Point max;
     private boolean[][] floorGrid;
     private Point point;
 
@@ -10,10 +10,10 @@ public class Floor {
      * 
      * @param floorLength integer length N of the two-dimensional (N x N) floor grid
      */
-    public Floor(int floorLength, Point point) {
-        this.floorLength = floorLength;
+    public Floor(Point max, Point point) {
+        this.max = max;
         this.point = point;
-        floorGrid = new boolean[floorLength][floorLength];
+        floorGrid = new boolean[max.getX()][max.getY()];
     }
 
     /**
@@ -33,7 +33,7 @@ public class Floor {
      */
     public void setHorizontalAxisPosition(int positionChange) {
         int newPosition = point.getX() + positionChange;
-        if (newPosition < 0 || newPosition >= floorLength) {
+        if (newPosition < 0 || newPosition >= max.getX()) {
             throw new IllegalArgumentException("New horizontal position is outside floor grid");
         }
         point.setX(newPosition);
@@ -56,7 +56,7 @@ public class Floor {
      */
     public void setVerticalAxisPosition(int positionChange) {
         int newPosition = point.getY() + positionChange;
-        if (newPosition < 0 || newPosition >= floorLength) {
+        if (newPosition < 0 || newPosition >= max.getY()) {
             throw new IllegalArgumentException("New vertical position is outside floor grid");
         }
         point.setY(newPosition);

@@ -11,14 +11,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class FloorTest {
-    private final int floorLength = 10;
-    private Floor floor;
+    private final Point max = new Point(10, 10);
     private Point point;
+    private Floor floor;
 
     @BeforeEach
     public final void beforeEach() {
         point = new Point(0, 0);
-        floor = new Floor(floorLength, point);
+        floor = new Floor(max, point);
     }
 
     @Test
@@ -88,19 +88,19 @@ public class FloorTest {
     @Test
     @DisplayName("Floor grid initialized with correct dimensions and values")
     public void getFloorGrid_InitializeTwoDimensionalArray_GridInitializedCorrectly() {
-        var floorGrid = new boolean[floorLength][floorLength];
+        var floorGrid = new boolean[max.getX()][max.getY()];
         for (boolean[] rows : floorGrid) {
             Arrays.fill(rows, Boolean.FALSE);
         }
-        assertEquals(floorLength, floor.getFloorGrid().length);
-        assertEquals(floorLength, floor.getFloorGrid()[0].length);
+        assertEquals(max.getX(), floor.getFloorGrid().length);
+        assertEquals(max.getY(), floor.getFloorGrid()[0].length);
         assertArrayEquals(floorGrid, floor.getFloorGrid());
     }
 
     @Test
     @DisplayName("Move position in the positive direction on horizontal axis")
     public void setFloorGrid_MovePositiveDirectionOnHorizontalAxis_CellsTraversedSetToTrue() {
-        var floorGrid = new boolean[floorLength][floorLength];
+        var floorGrid = new boolean[max.getX()][max.getY()];
         floorGrid[0][0] = true;
         floorGrid[1][0] = true;
         floorGrid[2][0] = true;
@@ -118,7 +118,7 @@ public class FloorTest {
     @Test
     @DisplayName("Move position in the positive direction on the vertical axis")
     public void setFloorGrid_MovePositiveDirectionOnVerticalAxis_CellsTraversedSetToTrue() {
-        var floorGrid = new boolean[floorLength][floorLength];
+        var floorGrid = new boolean[max.getX()][max.getY()];
         floorGrid[0][0] = true;
         floorGrid[0][1] = true;
         floorGrid[0][2] = true;
@@ -134,7 +134,7 @@ public class FloorTest {
     @Test
     @DisplayName("Move position in the negative direction on horizontal axis")
     public void setFloorGrid_MoveNegativeDirectionOnHorizontalAxis_CellsTraversedSetToTrue() {
-        var floorGrid = new boolean[floorLength][floorLength];
+        var floorGrid = new boolean[max.getX()][max.getY()];
         floorGrid[0][0] = true;
         floorGrid[1][0] = true;
         floorGrid[2][0] = true;
@@ -153,7 +153,7 @@ public class FloorTest {
     @Test
     @DisplayName("Move position in the negative direction on the vertical axis")
     public void setFloorGrid_MoveNegativeDirectionOnVerticalAxis_CellsTraversedSetToTrue() {
-        var floorGrid = new boolean[floorLength][floorLength];
+        var floorGrid = new boolean[max.getX()][max.getY()];
         floorGrid[0][0] = true;
         floorGrid[0][1] = true;
         floorGrid[0][2] = true;

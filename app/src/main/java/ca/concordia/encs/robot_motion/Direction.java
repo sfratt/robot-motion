@@ -4,8 +4,8 @@ public enum Direction {
     NORTH(0, 'N'),
     EAST(1, 'E'),
     SOUTH(2, 'S'),
-    WEST(3, 'W');
-    // NONE(4, 'X');
+    WEST(3, 'W'),
+    NONE(4, 'X');
 
     private final int value;
     private final char shortName;
@@ -15,14 +15,15 @@ public enum Direction {
         this.shortName = shortName;
     }
 
-    public static Direction getFromShortName(final char shortName) throws IllegalArgumentException {
+    public static Direction getFromShortName(final char shortName) {
         for (Direction direction : Direction.values()) {
             if (direction.shortName == shortName) {
                 return direction;
             }
         }
-        // return Direction.NONE;
-        throw new IllegalArgumentException(shortName + " is not a valid direction short name");
+        return Direction.NONE;
+        // throw new IllegalArgumentException(shortName + " is not a valid direction
+        // short name");
     }
 
     public Direction turnLeft() {
