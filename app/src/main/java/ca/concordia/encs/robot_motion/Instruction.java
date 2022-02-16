@@ -11,18 +11,32 @@ public enum Instruction {
     QUIT('Q'),
     INITIALIZE('I');
 
-    private final char shortName;
+    private final char value;
 
-    private Instruction(final char shortName) {
-        this.shortName = shortName;
+    private Instruction(final char value) {
+        this.value = value;
     }
 
-    public static Instruction getFromShortName(char shortName) {
+    public static Instruction getFromShortName(char value) {
         for (Instruction instruction : Instruction.values()) {
-            if (instruction.shortName == shortName) {
+            if (instruction.value == value) {
                 return instruction;
             }
         }
-        throw new IllegalArgumentException(shortName + " is not a valid instruction short name");
+        throw new IllegalArgumentException(value + " is not a valid instruction");
+    }
+
+    // public static Instruction getFromShortName(String value) {
+    // for (Instruction instruction : Instruction.values()) {
+    // if (instruction.toString() == value) {
+    // return instruction;
+    // }
+    // }
+    // throw new IllegalArgumentException(value + " is not a valid instruction");
+    // }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
     }
 }

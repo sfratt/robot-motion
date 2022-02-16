@@ -1,8 +1,6 @@
 package ca.concordia.encs.robot_motion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.Test;
 
 public class DirectionTest {
@@ -13,11 +11,9 @@ public class DirectionTest {
     }
 
     @Test
-    public void getFromShortName_ShortNameD_ThrowsIllegalArgumentException() {
-        var exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> Direction.getFromShortName('D'));
-        assertEquals("D is not a valid direction short name", exception.getMessage());
+    public void getFromShortName_ShortNameB_ReturnsNone() {
+        Direction direction = Direction.getFromShortName('D');
+        assertEquals(Direction.NONE, direction);
     }
 
     @Test
