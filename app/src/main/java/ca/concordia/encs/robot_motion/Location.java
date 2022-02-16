@@ -71,4 +71,8 @@ public class Location {
         }
         return false;
     }
+
+    public Location copy() {
+        return new Location(new Point(point.getX(), point.getY()), direction);
+    }
 }
