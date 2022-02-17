@@ -28,7 +28,7 @@ public enum Instruction {
 
     // public static Instruction getFromShortName(String value) {
     // for (Instruction instruction : Instruction.values()) {
-    // if (instruction.toString() == value) {
+    // if (String.valueOf(instruction) == value) {
     // return instruction;
     // }
     // }
