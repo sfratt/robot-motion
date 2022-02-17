@@ -34,4 +34,19 @@ public class Robot {
     public Floor getFloor() {
         return floor;
     }
+
+    public void move(int moveSize) {
+        if (getPenPosition()) {
+            var previousLocation = location.copy();
+            if (location.move(moveSize, floor.getMax())) {
+                floor.setFloorGrid(previousLocation, moveSize);
+            } else {
+                throw new IllegalArgumentException(moveSize + " is an invalid move");
+            }
+        } else {
+            if (!location.move(moveSize, floor.getMax())) {
+                throw new IllegalArgumentException(moveSize + " is an invalid move");
+            }
+        }
+    }
 }
