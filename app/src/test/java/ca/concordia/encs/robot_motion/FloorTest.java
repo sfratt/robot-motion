@@ -25,7 +25,6 @@ public class FloorTest {
     }
 
     @Test
-    @DisplayName("Floor grid initialized with correct dimensions and values")
     public void getFloorGrid_InitializeTwoDimensionalArray_GridInitializedCorrectly() {
         var floorGrid = new boolean[max.getX()][max.getY()];
         for (boolean[] rows : floorGrid) {
@@ -37,7 +36,11 @@ public class FloorTest {
     }
 
     @Test
-    @DisplayName("Floor grid cells changed to true when moving in the NORTH direction")
+    public void getMax_InitializedByConstructor_ReturnsPointObject() {
+        assertEquals(max, floor.getMax());
+    }
+
+    @Test
     public void setFloorGrid_MoveDirectionNorth_CellsTraversedSetToTrue() {
         var floorGrid = new boolean[max.getX()][max.getY()];
         floorGrid[0][0] = true;
@@ -56,7 +59,6 @@ public class FloorTest {
     }
 
     @Test
-    @DisplayName("Floor grid cells changed to true when moving in the EAST direction")
     public void setFloorGrid_MoveDirectionEast_CellsTraversedSetToTrue() {
         var floorGrid = new boolean[max.getX()][max.getY()];
         floorGrid[0][0] = true;
@@ -75,7 +77,6 @@ public class FloorTest {
     }
 
     @Test
-    @DisplayName("Floor grid cells changed to true when moving in the SOUTH direction")
     public void setFloorGrid_MoveDirectionSouth_CellsTraversedSetToTrue() {
         var floorGrid = new boolean[max.getX()][max.getY()];
         floorGrid[0][0] = true;
@@ -104,7 +105,6 @@ public class FloorTest {
     }
 
     @Test
-    @DisplayName("Floor grid cells changed to true when moving in the WEST direction")
     public void setFloorGrid_MoveDirectionWest_CellsTraversedSetToTrue() {
         var floorGrid = new boolean[max.getX()][max.getY()];
         floorGrid[0][0] = true;
@@ -151,7 +151,6 @@ public class FloorTest {
     }
 
     @Test
-    @DisplayName("Move value is greater than the floor grid maximum allowable cell index")
     public void setFloorGrid_GreaterThanMaximumValidMove_ThrowsIllegalArgumentException() {
         var invalidMove = 11;
         var exception = assertThrows(

@@ -120,9 +120,9 @@ public class LocationTest {
         assertNotSame(copy, location);
     }
 
-    // @Test
-    // public void copy_CopyObject_ObjectsAreEquivalent() {
-    // var copy = location.copy();
-    // assertEquals(location, copy);
-    // }
+    @Test
+    public void copy_CopyObject_ObjectsAreEquivalent() {
+        var copy = location.copy();
+        assertEquals(location, copy);
+    }
 }
