@@ -16,6 +16,11 @@ public class Floor {
         floorGrid = new boolean[max.getX()][max.getY()];
     }
 
+    /**
+     * Returns the maximum point on the floor grid.
+     * 
+     * @return the point object containing the maximum x- and y-axis values
+     */
     public Point getMax() {
         return max;
     }
@@ -37,7 +42,7 @@ public class Floor {
      * @param moveSize
      */
     public void setFloorGrid(Location location, int moveSize) throws ArrayIndexOutOfBoundsException {
-        if (moveSize < 0 || moveSize >= getFloorGrid().length) {
+        if (moveSize < 0 || moveSize >= floorGrid.length) {
             throw new IllegalArgumentException(moveSize + " is not a valid move");
         }
 

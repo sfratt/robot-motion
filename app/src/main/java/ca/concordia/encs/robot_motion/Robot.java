@@ -35,17 +35,17 @@ public class Robot {
         return floor;
     }
 
-    public void move(int moveSize) {
+    public void move(int move) {
         if (getPenPosition()) {
             var previousLocation = location.copy();
-            if (location.move(moveSize, floor.getMax())) {
-                floor.setFloorGrid(previousLocation, moveSize);
+            if (location.move(move, floor.getMax())) {
+                floor.setFloorGrid(previousLocation, move);
             } else {
-                throw new IllegalArgumentException(moveSize + " is an invalid move");
+                throw new IllegalArgumentException("M " + move + " is an invalid move");
             }
         } else {
-            if (!location.move(moveSize, floor.getMax())) {
-                throw new IllegalArgumentException(moveSize + " is an invalid move");
+            if (!location.move(move, floor.getMax())) {
+                throw new IllegalArgumentException("M " + move + " is an invalid move");
             }
         }
     }

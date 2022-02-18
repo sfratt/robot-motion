@@ -9,9 +9,9 @@ public class Location {
         this.direction = direction;
     }
 
-    public Point getPoint() {
-        return point;
-    }
+    // public Point getPoint() {
+    // return point;
+    // }
 
     public int getX() {
         return point.getX();
@@ -37,22 +37,22 @@ public class Location {
         this.direction = direction.turnRight();
     }
 
-    public boolean move(int moveSize, Point max) {
+    public boolean move(int move, Point max) {
         int x = getX();
         int y = getY();
 
         switch (getDirection()) {
             case NORTH:
-                y += moveSize;
+                y += move;
                 break;
             case EAST:
-                x += moveSize;
+                x += move;
                 break;
             case SOUTH:
-                y -= moveSize;
+                y -= move;
                 break;
             case WEST:
-                x -= moveSize;
+                x -= move;
                 break;
             default:
                 return false;
@@ -74,5 +74,21 @@ public class Location {
 
     public Location copy() {
         return new Location(new Point(point.getX(), point.getY()), direction);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+        if (object == null || getClass() != object.getClass())
+            return false;
+        Location location = (Location) object;
+        if (getX() != location.getX())
+            return false;
+        if (getY() != location.getY())
+            return false;
+        if (direction != location.direction)
+            return false;
+        return true;
     }
 }
