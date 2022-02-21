@@ -3,6 +3,7 @@ package ca.concordia.encs.robot_motion;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -124,5 +125,35 @@ public class LocationTest {
     public void copy_CopyObject_ObjectsAreEquivalent() {
         var copy = location.copy();
         assertEquals(location, copy);
+    }
+
+    // TODO: fix test method names and write test for missing condition
+    @Test
+    public void givenDifferentObjectWhenEqualsThenFalse() {
+        assertFalse(location.equals("bla"));
+    }
+
+    @Test
+    public void givenDifferentXWhenEqualsThenFalse() {
+        Location locationCopy = new Location(new Point(999, location.getY()), location.getDirection());
+        assertFalse(location.equals(locationCopy));
+    }
+
+    @Test
+    public void givenDifferentYWhenEqualsThenFalse() {
+        Location locationCopy = new Location(new Point(location.getX(), 999), location.getDirection());
+        assertFalse(location.equals(locationCopy));
+    }
+
+    @Test
+    public void givenDifferentDirectionWhenEqualsThenFalse() {
+        Location locationCopy = new Location(location.getPoint(), Direction.SOUTH);
+        assertFalse(location.equals(locationCopy));
+    }
+
+    @Test
+    public void givenSameXYDirectionWhenEqualsThenTrue() {
+        Location locationCopy = new Location(location.getPoint(), location.getDirection());
+        assertTrue(location.equals(locationCopy));
     }
 }

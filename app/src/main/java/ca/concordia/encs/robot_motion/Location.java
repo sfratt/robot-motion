@@ -9,9 +9,9 @@ public class Location {
         this.direction = direction;
     }
 
-    // public Point getPoint() {
-    // return point;
-    // }
+    public Point getPoint() {
+        return point;
+    }
 
     public int getX() {
         return point.getX();
