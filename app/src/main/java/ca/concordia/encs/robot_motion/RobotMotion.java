@@ -1,6 +1,6 @@
 package ca.concordia.encs.robot_motion;
 
-import java.io.IOException;
+// import java.io.IOException;
 import java.util.Scanner;
 
 public class RobotMotion {
@@ -24,9 +24,9 @@ public class RobotMotion {
     public void run() {
         gameActive = true;
         while (gameActive) {
-            String firstInput;
-            String secondInput;
-            String instruction = "nothing";
+            String firstInput = "";
+            String secondInput = "";
+            String instruction = "";
             int instructionNumber = 0;
 
             // clearConsole();
@@ -35,8 +35,12 @@ public class RobotMotion {
                 scanner = new Scanner(System.in);
                 firstInput = scanner.next(); // reads input
 
-                if (firstInput.toUpperCase() != "") { // validates input
+                if (firstInput.trim().toUpperCase() != "") { // validates input
                     instruction = firstInput.toUpperCase(); // input to uppercase and save
+                    if (robot.getFloor().getFloorGrid().length == 0 && !instruction.equals("I")) {
+                        print("Please start by initializing the floor\n");
+                        continue;
+                    }
                     if (instruction.equals("I") || instruction.equals("M")) {
                         secondInput = scanner.next(); // read number
                         if (isInt(secondInput)) { // validates number
@@ -59,36 +63,7 @@ public class RobotMotion {
                     System.out.println("Please enter valid instruction.");
                 }
 
-                switch (instruction) {
-                    case "U":
-                        receiveInstruction('U');
-                        break;
-                    case "D":
-                        receiveInstruction('D');
-                        break;
-                    case "R":
-                        receiveInstruction('R');
-                        break;
-                    case "L":
-                        receiveInstruction('L');
-                        break;
-                    case "M":
-                        receiveInstruction('M');
-                        break;
-                    case "P":
-                        receiveInstruction('P');
-                        break;
-                    case "C":
-                        receiveInstruction('C');
-                        break;
-                    case "Q":
-                        receiveInstruction('Q');
-                        break;
-                    case "I":
-                        receiveInstruction('I');
-                        break;
-                }
-
+                receiveInstruction(instruction.charAt(0));
             } catch (Exception e) {
                 print(e.getMessage() + "\n");
             }
@@ -99,18 +74,14 @@ public class RobotMotion {
         System.out.print(output);
     }
 
-    public void clearConsole() {
-        try {
-            final String os = System.getProperty("os.name");
-            if (os.contains("Windows")) {
-                Runtime.getRuntime().exec("cls");
-            } else {
-                Runtime.getRuntime().exec("clear");
-            }
-        } catch (IOException e) {
-            print(e.getMessage());
-        }
-    }
+    // public void clearConsole() throws IOException {
+    // final String os = System.getProperty("os.name");
+    // if (os.contains("Windows")) {
+    // Runtime.getRuntime().exec("cls");
+    // } else {
+    // Runtime.getRuntime().exec("clear");
+    // }
+    // }
 
     public void printFloor() {
         var floorGrid = robot.getFloor().getFloorGrid();
@@ -127,7 +98,7 @@ public class RobotMotion {
             }
             print("\n");
         }
-        print(" ");
+        print("  ");
         for (int i = 0; i < floorGrid.length; i++) {
             print(" " + i);
         }
@@ -198,18 +169,16 @@ public class RobotMotion {
                 initialize();
                 break;
             default:
-                // throw new IllegalArgumentException("Please enter a valid instruction");
                 break;
         }
     }
 
-    public static boolean isInt(String str) {
+    public static boolean isInt(String inputString) {
         try {
-            @SuppressWarnings("unused")
-            int x = Integer.parseInt(str);
-            return true;
+            Integer.parseInt(inputString);
         } catch (NumberFormatException e) {
             return false;
         }
+        return true;
     }
 }

@@ -2,18 +2,27 @@ package ca.concordia.encs.robot_motion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 public class LocationTest {
     private final int x = 12;
     private final int y = 23;
     private final Direction direction = Direction.NORTH;
     private Point max;
     private Location location;
+
+    @Mock
+    private Point point;
 
     @BeforeEach
     public final void beforeEach() {
@@ -23,11 +32,17 @@ public class LocationTest {
 
     @Test
     public void getX_LocationIsInstatiated_XIsStoredCorrectly() {
+        assertNotNull(point);
+        when(point.getX()).thenReturn(x);
+        var location = new Location(point, direction);
         assertEquals(x, location.getX());
     }
 
     @Test
     public void getY_LocationIsInstantiated_YIsStoredCorrectly() {
+        assertNotNull(point);
+        when(point.getY()).thenReturn(y);
+        var location = new Location(point, direction);
         assertEquals(y, location.getY());
     }
 
@@ -127,7 +142,12 @@ public class LocationTest {
         assertEquals(location, copy);
     }
 
-    // TODO: fix test method names and write test for missing condition
+    // TODO: fix test method names
+    @Test
+    public void givenSameObjectsWhenEqualsThenTrue() {
+        assertTrue(location.equals(location));
+    }
+
     @Test
     public void givenDifferentObjectWhenEqualsThenFalse() {
         assertFalse(location.equals("bla"));
