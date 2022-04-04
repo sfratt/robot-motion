@@ -3,11 +3,22 @@
 ## Todos
 
 - Put instructions for other testers in README
-- Add documentation comments for other team (white-box testing)
 - Add Pitest for mutator testing
 - Unit tests only have one assertion?
-- ~~make sure initialize is run first before any other instructions (if point length = 0, then I must be the first command entered)~~
-- Convert instruction input to upper case
-- Handle empty string input
-- Rename tests in Location class
-- Clear console after each instruction is input
+
+## Project Description
+
+## Command-Meaning Mapping
+
+- [U|u]: Pen up
+- [D|d]: Pen down
+- [R|r]: Turn right
+- [L|l]: Turn left
+- [M|m] s: Move forward s spaces (s is a non-negative integer)
+- [P|p]: Print the N by N array and display the indices
+- [C|c]: Print current position of the pen and whether it is up or down and its facing direction
+- [Q|q]: Stop the program
+- [I|i] n: Initialize the system, including N by N floor array (n is an integer greater than zero)
+- [H|h]: Replay history of all the commands entered by the user
+
+## Instructions

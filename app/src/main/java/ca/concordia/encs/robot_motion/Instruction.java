@@ -9,7 +9,8 @@ public enum Instruction {
     PRINT('P'),
     CURRENT('C'),
     QUIT('Q'),
-    INITIALIZE('I');
+    INITIALIZE('I'),
+    HISTORY('H');
 
     private final char value;
 
