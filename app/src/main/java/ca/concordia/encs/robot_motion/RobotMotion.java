@@ -33,27 +33,26 @@ public class RobotMotion {
             String instruction = "";
             int instructionNumber = 0;
 
-            // clearConsole();
             try {
                 System.out.print("Enter command: ");
                 scanner = new Scanner(System.in);
-                firstInput = scanner.next(); // reads input
+                firstInput = scanner.next();
 
-                // TODO: Handle empty string input
-                if (firstInput.trim().toUpperCase() != "") { // validates input
-                    instruction = firstInput.toUpperCase(); // input to uppercase and save
+                // TODO: Handle empty string and invalid character input
+                if (firstInput.trim().toUpperCase() != "") {
+                    instruction = firstInput.toUpperCase();
                     if (robot.getFloor().getFloorGrid().length == 0 && !instruction.equals("I")) {
                         print("Please start by initializing the floor.\n");
                         continue;
                     }
                     if (instruction.equals("I") || instruction.equals("M")) {
-                        secondInput = scanner.next(); // read number
-                        if (isInt(secondInput)) { // validates number
+                        secondInput = scanner.next();
+                        if (isInt(secondInput)) {
                             if (instruction.equals("I")) {
                                 if (Integer.parseInt(secondInput) > 0) {
                                     instructionNumber = Integer.parseInt(secondInput);
                                 } else {
-                                    System.out.println("Please enter positive integer.");
+                                    print("Please enter a positive integer.");
                                 }
                                 setFloorSize(instructionNumber);
                             } else {
@@ -61,15 +60,19 @@ public class RobotMotion {
                                 setMove(instructionNumber);
                             }
                         } else {
-                            System.out.println("Please enter a valid integer.");
+                            print("Please enter a valid integer.");
                         }
                     }
                 } else {
-                    System.out.println("Please enter valid instruction.");
+                    print("Please enter valid instruction.");
                 }
 
                 receiveInstruction(instruction.charAt(0));
-                history.put(new Date().getTime(), "Instruction: " + instruction + " - " + getCurrentPosition());
+                // history.put(new Date().getTime(), "Instruction: "
+                // + Instruction.getFromShortName(instruction.charAt(0)).name() + " - " +
+                // getCurrentPosition());
+                history.put(new Date().getTime(), "Instruction: "
+                        + instruction.charAt(0) + " - " + getCurrentPosition());
             } catch (Exception e) {
                 print(e.getMessage() + "\n");
             }
@@ -80,21 +83,11 @@ public class RobotMotion {
         System.out.print(output);
     }
 
-    // public void clearConsole() throws IOException {
-    // final String os = System.getProperty("os.name");
-    // if (os.contains("Windows")) {
-    // Runtime.getRuntime().exec("cls");
-    // } else {
-    // Runtime.getRuntime().exec("clear");
-    // }
-    // }
-
     public void printFloor() {
         var floorGrid = robot.getFloor().getFloorGrid();
 
         for (int y = floorGrid.length - 1; y >= 0; y--) {
             System.out.format("%2d", y);
-            // print(String.valueOf(y));
             for (int x = 0; x < floorGrid.length; x++) {
                 if (floorGrid[x][y]) {
                     print(" *");
@@ -148,6 +141,7 @@ public class RobotMotion {
         pen = new Pen(false);
         floor = new Floor(new Point(floorSize, floorSize));
         robot = new Robot(location, pen, floor);
+        history = new TreeMap<Long, String>();
     }
 
     public void quit() {
