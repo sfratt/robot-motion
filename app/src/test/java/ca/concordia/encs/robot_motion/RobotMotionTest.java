@@ -2,12 +2,12 @@ package ca.concordia.encs.robot_motion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -73,12 +73,8 @@ public class RobotMotionTest {
     @Test
     public void addHistory_EnterValidInstruction_VerifyHistoryCount() {
         robotMotion.receiveInstruction('D');
+
         robotMotion.addHistory("D");
-        // robotMotion.receiveInstruction('R');
-        // robotMotion.addHistory("R");
-        // robotMotion.setMove(4);
-        // robotMotion.receiveInstruction('M');
-        // robotMotion.addHistory("M");
 
         assertEquals(1, robotMotion.getHistory().size());
     }
@@ -121,10 +117,24 @@ public class RobotMotionTest {
         assertTrue(outputStreamCaptor.toString().contains("*"));
     }
 
-    // @Test
-    // public void quit() {
-    // robotMotion.
-    // }
+    @Test
+    public void quit_CloseScanner_ScannerClosedButNotNull() {
+        robotMotion.receiveInstruction('Q');
+
+        assertNotNull(robotMotion.getScanner());
+    }
+
+    @Test
+    public void initialize_StartOrRestart_InstantiatesNewObjects() {
+        robotMotion.receiveInstruction('D');
+        robotMotion.receiveInstruction('R');
+        robotMotion.setMove(4);
+        robotMotion.receiveInstruction('M');
+
+        robotMotion.receiveInstruction('I');
+
+        assertEquals("Position: 0, 0 - Pen: up - Facing: NORTH\n", robotMotion.getCurrentPosition());
+    }
 
     @Test
     public void isInt_ValidIntegerInput_ReturnsTrue() {
