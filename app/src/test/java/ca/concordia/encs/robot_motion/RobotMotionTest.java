@@ -2,6 +2,7 @@ package ca.concordia.encs.robot_motion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -48,16 +49,82 @@ public class RobotMotionTest {
     }
 
     @Test
+    public void getCurrentPosition_InvokeOnInitializedFloor_ReturnsCurrentPositionString() {
+        robotMotion.receiveInstruction('D');
+        robotMotion.receiveInstruction('R');
+        robotMotion.setMove(4);
+        robotMotion.receiveInstruction('M');
+
+        assertEquals("Position: 4, 0 - Pen: down - Facing: EAST\n", robotMotion.getCurrentPosition());
+    }
+
+    @Test
     public void printCurrentPosition_InvokePrintWithPenDown_CaptureOutputSuccessfully() {
         robotMotion.receiveInstruction('D');
         robotMotion.receiveInstruction('R');
         robotMotion.setMove(4);
         robotMotion.receiveInstruction('M');
 
-        robotMotion.printCurrentPosition();
+        robotMotion.receiveInstruction('C');
 
         assertEquals("Position: 4, 0 - Pen: down - Facing: EAST", outputStreamCaptor.toString().trim());
     }
+
+    @Test
+    public void addHistory_EnterValidInstruction_VerifyHistoryCount() {
+        robotMotion.receiveInstruction('D');
+        robotMotion.addHistory("D");
+        // robotMotion.receiveInstruction('R');
+        // robotMotion.addHistory("R");
+        // robotMotion.setMove(4);
+        // robotMotion.receiveInstruction('M');
+        // robotMotion.addHistory("M");
+
+        assertEquals(1, robotMotion.getHistory().size());
+    }
+
+    @Test
+    public void addHistory_EnterInvalidInstruction_ThrowsIllegalArgumentException() {
+        var exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> robotMotion.addHistory("S"));
+        assertEquals("S is not a valid instruction.", exception.getMessage());
+    }
+
+    @Test
+    public void printHistory_InvokeOnInitialize_PrintHistoryContents() {
+        robotMotion.addHistory("I");
+
+        robotMotion.receiveInstruction('H');
+
+        assertEquals(
+                "Instruction: I - Position: 0, 0 - Pen: up - Facing: NORTH",
+                outputStreamCaptor.toString().trim());
+    }
+
+    @Test
+    public void printFloor_InitializedFloorWithoutMoves_PrintsFloorGrid() {
+        robotMotion.receiveInstruction('P');
+
+        assertFalse(outputStreamCaptor.toString().contains("*"));
+    }
+
+    @Test
+    public void printFloor_InitializedFloorWithMoves_PrintsFloorGrid() {
+        robotMotion.receiveInstruction('D');
+        robotMotion.receiveInstruction('R');
+        robotMotion.setMove(4);
+        robotMotion.receiveInstruction('M');
+
+        robotMotion.receiveInstruction('P');
+
+        assertTrue(outputStreamCaptor.toString().contains("*"));
+    }
+
+    // @Test
+    // public void quit() {
+    // robotMotion.
+    // }
 
     @Test
     public void isInt_ValidIntegerInput_ReturnsTrue() {
