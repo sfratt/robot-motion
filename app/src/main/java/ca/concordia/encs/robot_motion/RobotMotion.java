@@ -22,6 +22,7 @@ public class RobotMotion {
         floor = new Floor(new Point(0, 0));
         robot = new Robot(location, pen, floor);
         history = new TreeMap<Long, String>();
+        scanner = new Scanner(System.in);
     }
 
     public void run() {
@@ -34,7 +35,7 @@ public class RobotMotion {
 
             try {
                 print("Enter command: ");
-                scanner = new Scanner(System.in);
+                // scanner = getScanner();
                 firstInput = scanner.next();
 
                 // TODO: Handle empty string and invalid character input
@@ -151,6 +152,10 @@ public class RobotMotion {
         history = new TreeMap<Long, String>();
     }
 
+    public Scanner getScanner() {
+        return scanner;
+    }
+
     public void quit() {
         gameActive = false;
         scanner.close();
@@ -192,6 +197,10 @@ public class RobotMotion {
                 break;
         }
     }
+
+    // public void receiveInput() {
+
+    // }
 
     public static boolean isInt(String inputString) {
         try {

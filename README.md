@@ -2,11 +2,9 @@
 
 ## Todos
 
-- Put instructions for other testers in README
+- Put instructions in README
 - Add Pitest for mutator testing
-- Unit tests only have one assertion?
-- Add Javadoc comments to methods and classes
-- Print list of available commands when empty string input
+- Print list of available commands when empty string input?
 - Putting a command next to number does not throw an invalid command error
 - Issue with space between instruction and additional parameter
 - Edge cases such as entering two characters in a row (DD)
