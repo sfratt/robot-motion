@@ -24,7 +24,7 @@ public enum Instruction {
                 return instruction;
             }
         }
-        throw new IllegalArgumentException(value + " is not a valid instruction");
+        throw new IllegalArgumentException(value + " is not a valid instruction.");
     }
 
     // public static Instruction getFromShortName(String value) {
@@ -36,8 +36,8 @@ public enum Instruction {
     // throw new IllegalArgumentException(value + " is not a valid instruction");
     // }
 
-    @Override
-    public String toString() {
-        return String.valueOf(value);
-    }
+    // @Override
+    // public String toString() {
+    // return String.valueOf(value);
+    // }
 }

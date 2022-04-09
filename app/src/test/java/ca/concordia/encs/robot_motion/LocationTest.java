@@ -142,37 +142,41 @@ public class LocationTest {
         assertEquals(location, copy);
     }
 
-    // TODO: fix test method names
     @Test
-    public void givenSameObjectsWhenEqualsThenTrue() {
+    public void equals_SameObjects_ReturnsTrue() {
         assertTrue(location.equals(location));
     }
 
     @Test
-    public void givenDifferentObjectWhenEqualsThenFalse() {
+    public void equals_DifferentObjectClass_ReturnsFalse() {
         assertFalse(location.equals("bla"));
     }
 
     @Test
-    public void givenDifferentXWhenEqualsThenFalse() {
+    public void equals_DifferentObjectNull_ReturnsFalse() {
+        assertFalse(location.equals(null));
+    }
+
+    @Test
+    public void equals_DifferentX_ReturnsFalse() {
         Location locationCopy = new Location(new Point(999, location.getY()), location.getDirection());
         assertFalse(location.equals(locationCopy));
     }
 
     @Test
-    public void givenDifferentYWhenEqualsThenFalse() {
+    public void equals_DifferentY_ReturnsFalse() {
         Location locationCopy = new Location(new Point(location.getX(), 999), location.getDirection());
         assertFalse(location.equals(locationCopy));
     }
 
     @Test
-    public void givenDifferentDirectionWhenEqualsThenFalse() {
+    public void equals_DifferentDirection_ReturnsFalse() {
         Location locationCopy = new Location(location.getPoint(), Direction.SOUTH);
         assertFalse(location.equals(locationCopy));
     }
 
     @Test
-    public void givenSameXYDirectionWhenEqualsThenTrue() {
+    public void equals_SameXYDirection_ReturnsTrue() {
         Location locationCopy = new Location(location.getPoint(), location.getDirection());
         assertTrue(location.equals(locationCopy));
     }

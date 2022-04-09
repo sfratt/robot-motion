@@ -1,7 +1,6 @@
 package ca.concordia.encs.robot_motion;
 
 import java.util.Date;
-// import java.io.IOException;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -34,7 +33,7 @@ public class RobotMotion {
             int instructionNumber = 0;
 
             try {
-                System.out.print("Enter command: ");
+                print("Enter command: ");
                 scanner = new Scanner(System.in);
                 firstInput = scanner.next();
 
@@ -52,7 +51,7 @@ public class RobotMotion {
                                 if (Integer.parseInt(secondInput) > 0) {
                                     instructionNumber = Integer.parseInt(secondInput);
                                 } else {
-                                    print("Please enter a positive integer.");
+                                    print("Please enter a positive integer.\n");
                                 }
                                 setFloorSize(instructionNumber);
                             } else {
@@ -60,19 +59,15 @@ public class RobotMotion {
                                 setMove(instructionNumber);
                             }
                         } else {
-                            print("Please enter a valid integer.");
+                            print("Please enter a valid integer.\n");
                         }
                     }
                 } else {
-                    print("Please enter valid instruction.");
+                    print("Please enter valid instruction.\n");
                 }
 
                 receiveInstruction(instruction.charAt(0));
-                // history.put(new Date().getTime(), "Instruction: "
-                // + Instruction.getFromShortName(instruction.charAt(0)).name() + " - " +
-                // getCurrentPosition());
-                history.put(new Date().getTime(), "Instruction: "
-                        + instruction.charAt(0) + " - " + getCurrentPosition());
+                addHistory(instruction);
             } catch (Exception e) {
                 print(e.getMessage() + "\n");
             }
@@ -105,13 +100,25 @@ public class RobotMotion {
     }
 
     public String getCurrentPosition() {
-        var currentPosition = "Position: " + location.getX() + ", " + location.getY() + " - Pen: "
-                + (robot.getPenPosition() ? "down" : "up") + " - Facing: " + location.getDirection().toString() + "\n";
-        return currentPosition;
+        return "Position: " + location.getX() + ", " + location.getY() + " - Pen: "
+                + (robot.getPenPosition() ? "down" : "up") + " - Facing: " + location.getDirection().name() + "\n";
     }
 
     public void printCurrentPosition() {
         print(getCurrentPosition());
+    }
+
+    public void addHistory(String instruction) {
+        try {
+            Instruction.getFromShortName(instruction.charAt(0));
+            history.put(new Date().getTime(), "Instruction: " + instruction.charAt(0) + " - " + getCurrentPosition());
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
+    }
+
+    public TreeMap<Long, String> getHistory() {
+        return history;
     }
 
     public void printHistory() {
