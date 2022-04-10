@@ -6,15 +6,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class RobotMotionTest {
+    private final InputStream standardIn = System.in;
     private final PrintStream standardOut = System.out;
-    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+    private ByteArrayInputStream inputStreamCaptor;
+    private ByteArrayOutputStream outputStreamCaptor;
     private RobotMotion robotMotion;
 
     @BeforeEach
@@ -22,6 +26,7 @@ public class RobotMotionTest {
         robotMotion = new RobotMotion();
         robotMotion.setFloorSize(10);
         robotMotion.initialize();
+        outputStreamCaptor = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStreamCaptor));
     }
 
@@ -137,6 +142,34 @@ public class RobotMotionTest {
     }
 
     @Test
+    public void receiveInput_InvalidInitialization_PrintsMessageToInitializeFloor() {
+        var input = "S";
+        inputStreamCaptor = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inputStreamCaptor);
+        var robotMotion = new RobotMotion();
+
+        robotMotion.receiveInput();
+        robotMotion.quit();
+
+        assertEquals("Please start by initializing the floor.", outputStreamCaptor.toString().trim());
+    }
+
+    @Test
+    public void receiveInput_InvalidInstruction_PrintsMessageToEnterValidInstruction() {
+        var input = "S";
+        inputStreamCaptor = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inputStreamCaptor);
+        var robotMotion = new RobotMotion();
+        robotMotion.setFloorSize(10);
+        robotMotion.initialize();
+
+        robotMotion.receiveInput();
+        robotMotion.quit();
+
+        assertEquals("S is not a valid instruction.", outputStreamCaptor.toString().trim());
+    }
+
+    @Test
     public void isInt_ValidIntegerInput_ReturnsTrue() {
         assertTrue(RobotMotion.isInt("10"));
     }
@@ -148,6 +181,7 @@ public class RobotMotionTest {
 
     @AfterEach
     public void afterEach() {
+        System.setIn(standardIn);
         System.setOut(standardOut);
     }
 }

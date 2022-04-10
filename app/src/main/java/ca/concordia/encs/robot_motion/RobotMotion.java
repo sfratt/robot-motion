@@ -6,7 +6,6 @@ import java.util.TreeMap;
 
 public class RobotMotion {
     private Robot robot;
-    // private Instruction instruction;
     private Location location;
     private Pen pen;
     private Floor floor;
@@ -28,50 +27,8 @@ public class RobotMotion {
     public void run() {
         gameActive = true;
         while (gameActive) {
-            String firstInput = "";
-            String secondInput = "";
-            String instruction = "";
-            int instructionNumber = 0;
-
-            try {
-                print("Enter command: ");
-                // scanner = getScanner();
-                firstInput = scanner.next();
-
-                // TODO: Handle empty string and invalid character input
-                if (firstInput.trim().toUpperCase() != "") {
-                    instruction = firstInput.toUpperCase();
-                    if (robot.getFloor().getFloorGrid().length == 0 && !instruction.equals("I")) {
-                        print("Please start by initializing the floor.\n");
-                        continue;
-                    }
-                    if (instruction.equals("I") || instruction.equals("M")) {
-                        secondInput = scanner.next();
-                        if (isInt(secondInput)) {
-                            if (instruction.equals("I")) {
-                                if (Integer.parseInt(secondInput) > 0) {
-                                    instructionNumber = Integer.parseInt(secondInput);
-                                } else {
-                                    print("Please enter a positive integer.\n");
-                                }
-                                setFloorSize(instructionNumber);
-                            } else {
-                                instructionNumber = Integer.parseInt(secondInput);
-                                setMove(instructionNumber);
-                            }
-                        } else {
-                            print("Please enter a valid integer.\n");
-                        }
-                    }
-                } else {
-                    print("Please enter valid instruction.\n");
-                }
-
-                receiveInstruction(instruction.charAt(0));
-                addHistory(instruction);
-            } catch (Exception e) {
-                print(e.getMessage() + "\n");
-            }
+            print("Enter command: ");
+            receiveInput();
         }
     }
 
@@ -127,14 +84,6 @@ public class RobotMotion {
             print(value);
         }
     }
-
-    // public Instruction getInstruction() {
-    // return instruction;
-    // }
-
-    // public void setInstruction(char shortName) {
-    // this.instruction = Instruction.getFromShortName(shortName);
-    // }
 
     public void setMove(int move) {
         this.moveSize = move;
@@ -198,9 +147,46 @@ public class RobotMotion {
         }
     }
 
-    // public void receiveInput() {
+    public void receiveInput() {
+        String firstInput = "";
+        String secondInput = "";
+        String instruction = "";
+        int instructionNumber = 0;
 
-    // }
+        try {
+            firstInput = scanner.next();
+
+            // TODO: Handle empty string and invalid character input
+            instruction = firstInput.toUpperCase();
+            if (robot.getFloor().getFloorGrid().length == 0 && !instruction.equals("I")) {
+                print("Please start by initializing the floor.\n");
+                return;
+            }
+            if (instruction.equals("I") || instruction.equals("M")) {
+                secondInput = scanner.next();
+                if (isInt(secondInput)) {
+                    if (instruction.equals("I")) {
+                        if (Integer.parseInt(secondInput) > 0) {
+                            instructionNumber = Integer.parseInt(secondInput);
+                        } else {
+                            print("Please enter a positive integer.\n");
+                        }
+                        setFloorSize(instructionNumber);
+                    } else {
+                        instructionNumber = Integer.parseInt(secondInput);
+                        setMove(instructionNumber);
+                    }
+                } else {
+                    print("Please enter a valid integer.\n");
+                }
+            }
+
+            receiveInstruction(instruction.charAt(0));
+            addHistory(instruction);
+        } catch (Exception e) {
+            print(e.getMessage() + "\n");
+        }
+    }
 
     public static boolean isInt(String inputString) {
         try {
