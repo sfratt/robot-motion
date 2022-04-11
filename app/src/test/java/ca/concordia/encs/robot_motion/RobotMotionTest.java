@@ -142,6 +142,19 @@ public class RobotMotionTest {
     }
 
     @Test
+    public void receiveInput_ValidInitialization_PrintsNothing() {
+        var input = "I 10";
+        inputStreamCaptor = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inputStreamCaptor);
+        var robotMotion = new RobotMotion();
+
+        robotMotion.receiveInput();
+        robotMotion.quit();
+
+        assertEquals("", outputStreamCaptor.toString().trim());
+    }
+
+    @Test
     public void receiveInput_InvalidInitialization_PrintsMessageToInitializeFloor() {
         var input = "S";
         inputStreamCaptor = new ByteArrayInputStream(input.getBytes());
@@ -152,6 +165,49 @@ public class RobotMotionTest {
         robotMotion.quit();
 
         assertEquals("Please start by initializing the floor.", outputStreamCaptor.toString().trim());
+    }
+
+    @Test
+    public void receiveInput_InvalidFloorSize_PrintsEnterPositiveNumber() {
+        var input = "I -10";
+        inputStreamCaptor = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inputStreamCaptor);
+        var robotMotion = new RobotMotion();
+
+        robotMotion.receiveInput();
+        robotMotion.quit();
+
+        assertEquals("Please enter a positive integer value for floor size.", outputStreamCaptor.toString().trim());
+    }
+
+    @Test
+    public void receiveInput_ValidMoveSize_PrintsNothing() {
+        var input = "M 5";
+        inputStreamCaptor = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inputStreamCaptor);
+        var robotMotion = new RobotMotion();
+        robotMotion.setFloorSize(10);
+        robotMotion.initialize();
+
+        robotMotion.receiveInput();
+        robotMotion.quit();
+
+        assertEquals("", outputStreamCaptor.toString().trim());
+    }
+
+    @Test
+    public void receiveInput_InvalidMove_PrintsNothing() {
+        var input = "M *";
+        inputStreamCaptor = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inputStreamCaptor);
+        var robotMotion = new RobotMotion();
+        robotMotion.setFloorSize(10);
+        robotMotion.initialize();
+
+        robotMotion.receiveInput();
+        robotMotion.quit();
+
+        assertEquals("Please enter an integer value.", outputStreamCaptor.toString().trim());
     }
 
     @Test

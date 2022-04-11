@@ -169,7 +169,7 @@ public class RobotMotion {
                         if (Integer.parseInt(secondInput) > 0) {
                             instructionNumber = Integer.parseInt(secondInput);
                         } else {
-                            print("Please enter a positive integer.\n");
+                            print("Please enter a positive integer value for floor size.\n");
                         }
                         setFloorSize(instructionNumber);
                     } else {
@@ -177,7 +177,7 @@ public class RobotMotion {
                         setMove(instructionNumber);
                     }
                 } else {
-                    print("Please enter a valid integer.\n");
+                    print("Please enter an integer value.\n");
                 }
             }
 
